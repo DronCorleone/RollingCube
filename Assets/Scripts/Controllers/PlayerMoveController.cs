@@ -2,26 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[RequireComponent(typeof(BoxCollider))]
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerMoveController : MonoBehaviour
 {
     [SerializeField] private float tumblingDuration = 0.2f;
     [SerializeField] private LayerMask _deathMask = 5;
 
+    private Rigidbody _rigidbody;
     private RaycastHit _ray;
     private Vector3 _dir;
     private float _stepSize = 0.5f;
     private float _raySize = 1.1f;
-    private bool _input = true;
     private bool isTumbling = false;
 
     private InputController _inputController;
     private MoveDirection _moveDirection;
+    private bool _isInputAllow;
 
     private void Start()
     {
         _inputController = FindObjectOfType<InputController>();
-
-        _input = true;
+        _rigidbody = GetComponent<Rigidbody>();
+        _rigidbody.isKinematic = true;
+        _isInputAllow = true;
     }
 
     void Update()
@@ -30,23 +35,26 @@ public class PlayerMoveController : MonoBehaviour
         _dir = Vector3.zero;
         _moveDirection = _inputController.GetDirection();
 
-        switch (_moveDirection)
+        if (_isInputAllow)
         {
-            case MoveDirection.RightUp:
-                _dir = Vector3.forward;
-                break;
-            case MoveDirection.RightDown:
-                _dir = Vector3.right;
-                break;
-            case MoveDirection.LeftUp:
-                _dir = Vector3.left;
-                break;
-            case MoveDirection.LeftDown:
-                _dir = Vector3.back;
-                break;
-            default:
-                _dir = Vector3.zero;
-                break;
+            switch (_moveDirection)
+            {
+                case MoveDirection.RightUp:
+                    _dir = Vector3.forward;
+                    break;
+                case MoveDirection.RightDown:
+                    _dir = Vector3.right;
+                    break;
+                case MoveDirection.LeftUp:
+                    _dir = Vector3.left;
+                    break;
+                case MoveDirection.LeftDown:
+                    _dir = Vector3.back;
+                    break;
+                default:
+                    _dir = Vector3.zero;
+                    break;
+            }
         }
 
         if (_dir != Vector3.zero && !isTumbling)
@@ -55,10 +63,13 @@ public class PlayerMoveController : MonoBehaviour
         }
 
         // Raycast
-        if (Physics.Raycast(transform.position, Vector3.down, out _ray, _raySize, _deathMask))
+        if (!Physics.Raycast(transform.position, Vector3.down, out _ray, _raySize))
         {
-            _input = false;
-            gameObject.AddComponent<Rigidbody>();
+            _isInputAllow = false;
+            _rigidbody.isKinematic = false;
+            FindObjectOfType<CameraFollow>().TurnOff();
+            Physics.gravity = new Vector3(0, -25, 0);
+            GetComponent<BoxCollider>().isTrigger = true;
         }
     }
 
