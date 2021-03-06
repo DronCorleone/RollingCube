@@ -69,7 +69,7 @@ public class PlayerMoveController : MonoBehaviour
             _rigidbody.isKinematic = false;
             FindObjectOfType<CameraFollow>().TurnOff();
             Physics.gravity = new Vector3(0, -25, 0);
-            GetComponent<BoxCollider>().isTrigger = true;
+            //GetComponent<BoxCollider>().isTrigger = true;
         }
     }
 
