@@ -74,7 +74,7 @@ public class PlayerMoveController : MonoBehaviour
     }
 
 
-    IEnumerator Tumble(Vector3 direction)
+    private IEnumerator Tumble(Vector3 direction)
     {
         isTumbling = true;
 
