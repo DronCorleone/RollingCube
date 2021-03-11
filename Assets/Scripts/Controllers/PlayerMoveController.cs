@@ -10,21 +10,32 @@ public class PlayerMoveController : MonoBehaviour
     [SerializeField] private float tumblingDuration = 0.2f;
     [SerializeField] private LayerMask _deathMask = 5;
 
+    private CameraFollow _camera;
     private Rigidbody _rigidbody;
+    private BoxCollider _collider;
     private RaycastHit _ray;
     private Vector3 _dir;
     private float _stepSize = 0.5f;
-    private float _raySize = 1.1f;
+    private float _raySize = 2f;
     private bool isTumbling = false;
 
     private InputController _inputController;
     private MoveDirection _moveDirection;
     private bool _isInputAllow;
 
+    public float Height
+    {
+        get => transform.position.y;
+    }
+
     private void Start()
     {
         _inputController = FindObjectOfType<InputController>();
+        _camera = FindObjectOfType<CameraFollow>();
+
         _rigidbody = GetComponent<Rigidbody>();
+        _collider = GetComponent<BoxCollider>();
+
         _rigidbody.isKinematic = true;
         _isInputAllow = true;
     }
@@ -67,9 +78,13 @@ public class PlayerMoveController : MonoBehaviour
         {
             _isInputAllow = false;
             _rigidbody.isKinematic = false;
-            FindObjectOfType<CameraFollow>().TurnOff();
+            _camera.TurnOff();
             Physics.gravity = new Vector3(0, -25, 0);
-            //GetComponent<BoxCollider>().isTrigger = true;
+            _collider.isTrigger = true;
+        }
+        else
+        {
+            _collider.isTrigger = false;
         }
     }
 
