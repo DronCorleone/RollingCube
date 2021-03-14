@@ -126,6 +126,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tumblingDuration: 0.2
-  _deathMask:
+  _winMask:
     serializedVersion: 2
-    m_Bits: 5
+    m_Bits: 128

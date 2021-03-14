@@ -8,12 +8,11 @@ using UnityEngine;
 public class PlayerMoveController : MonoBehaviour
 {
     [SerializeField] private float tumblingDuration = 0.2f;
-    [SerializeField] private LayerMask _deathMask = 5;
+    [SerializeField] private LayerMask _winMask;
 
     private CameraFollow _camera;
     private Rigidbody _rigidbody;
     private BoxCollider _collider;
-    private RaycastHit _ray;
     private Vector3 _dir;
     private float _stepSize = 0.5f;
     private float _raySize = 2f;
@@ -74,7 +73,7 @@ public class PlayerMoveController : MonoBehaviour
         }
 
         // Raycast
-        if (!Physics.Raycast(transform.position, Vector3.down, out _ray, _raySize))
+        if (!Physics.Raycast(transform.position, Vector3.down, _raySize))
         {
             _isInputAllow = false;
             _rigidbody.isKinematic = false;
@@ -82,8 +81,9 @@ public class PlayerMoveController : MonoBehaviour
             Physics.gravity = new Vector3(0, -25, 0);
             _collider.isTrigger = true;
         }
-        else
+        else if (Physics.Raycast(transform.position, Vector3.down, _raySize, _winMask))
         {
+            // TODO win trigger
             _collider.isTrigger = false;
         }
     }
