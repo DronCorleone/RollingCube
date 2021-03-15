@@ -22,9 +22,12 @@ public class PlayerMoveController : MonoBehaviour
     private MoveDirection _moveDirection;
     private bool _isInputAllow;
 
-    public float Height
+    private float _loseHeight = -10f;
+    private PlayerState _state;
+
+    public PlayerState State
     {
-        get => transform.position.y;
+        get => _state;
     }
 
     private void Start()
@@ -37,6 +40,7 @@ public class PlayerMoveController : MonoBehaviour
 
         _rigidbody.isKinematic = true;
         _isInputAllow = true;
+        _state = PlayerState.InGame;
     }
 
     void Update()
@@ -83,8 +87,14 @@ public class PlayerMoveController : MonoBehaviour
         }
         else if (Physics.Raycast(transform.position, Vector3.down, _raySize, _winMask))
         {
-            // TODO win trigger
+            _state = PlayerState.Win;
             _collider.isTrigger = false;
+        }
+
+        // Height
+        if (transform.position.y <= _loseHeight)
+        {
+            _state = PlayerState.Lose;
         }
     }
 
