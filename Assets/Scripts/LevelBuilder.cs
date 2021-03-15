@@ -11,6 +11,7 @@ public class LevelBuilder
     {
         _levels = levels;
         _levelNumber = levelNumber;
+        if (_levelNumber >= _levels.Count) _levelNumber = 0;
     }
 
     public void BuildLevel()

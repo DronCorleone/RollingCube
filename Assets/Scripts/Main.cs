@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -71,6 +69,7 @@ public class Main : MonoBehaviour
     public void NextLevel()
     {
         _levelNumber++;
+        if (_levelNumber >= _levels.Count) _levelNumber = 0;
         SaveGame();
         RestartLevel();
     }

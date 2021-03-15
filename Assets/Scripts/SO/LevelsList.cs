@@ -7,15 +7,21 @@ public class LevelsList : ScriptableObject
 {
     [SerializeField] private List<LevelPreset> _levels;
 
+
+    public int Count
+    {
+        get => _levels.Count;
+    }
+
     public LevelPreset GetLevel(int levelNumber)
     {
-        if (levelNumber == 0 || levelNumber > _levels.Count)
+        if (levelNumber > _levels.Count)
         {
             return _levels[0];
         }
         else
         {
-            return _levels[levelNumber - 1];
+            return _levels[levelNumber];
         }
     }
 }
