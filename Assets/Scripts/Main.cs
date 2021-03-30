@@ -97,7 +97,7 @@ public class Main : MonoBehaviour
 
     private void PlayerDeath()
     {
-
+        EndLevel(false);
     }
 
     public void ExitGame()
