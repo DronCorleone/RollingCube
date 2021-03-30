@@ -41,6 +41,10 @@ public class Main : MonoBehaviour
             case PlayerState.Lose:
                 EndLevel(false);
                 break;
+            case PlayerState.Death:
+                _player.gameObject.SetActive(false);
+                Invoke("PlayerDeath", 1f);
+                break;
             default:
                 break;
         }
@@ -89,6 +93,11 @@ public class Main : MonoBehaviour
     private void Win()
     {
         EndLevel(true);
+    }
+
+    private void PlayerDeath()
+    {
+
     }
 
     public void ExitGame()

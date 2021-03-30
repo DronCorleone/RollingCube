@@ -25,10 +25,7 @@ public class PlayerMoveController : MonoBehaviour
     private float _loseHeight = -10f;
     private PlayerState _state;
 
-    public PlayerState State
-    {
-        get => _state;
-    }
+    public PlayerState State => _state;
 
     private void Start()
     {
@@ -98,7 +95,6 @@ public class PlayerMoveController : MonoBehaviour
         }
     }
 
-
     private IEnumerator Tumble(Vector3 direction)
     {
         isTumbling = true;
@@ -131,5 +127,12 @@ public class PlayerMoveController : MonoBehaviour
         }
 
         isTumbling = false;
+    }
+
+    public void Death()
+    {
+        _camera.TurnOff();
+        _isInputAllow = false;
+        _state = PlayerState.Death;
     }
 }

@@ -2,5 +2,6 @@ public enum PlayerState
 {
     InGame,
     Win,
-    Lose
+    Lose,
+    Death
 }
