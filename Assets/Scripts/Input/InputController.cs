@@ -62,6 +62,29 @@ public class InputController : MonoBehaviour
             _inputStart = false;
             _direction = MoveDirection.None;
         }
+
+
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            _direction = MoveDirection.RightDown;
+        }
+        else if (Input.GetKey(KeyCode.DownArrow))
+        {
+            _direction = MoveDirection.LeftDown;
+        }
+        else if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            _direction = MoveDirection.LeftUp;
+        }
+        else if (Input.GetKey(KeyCode.UpArrow))
+        {
+            _direction = MoveDirection.RightUp;
+        }
+        else
+        {
+            _direction = MoveDirection.None;
+        }
+
     }
 
     public MoveDirection GetDirection()
